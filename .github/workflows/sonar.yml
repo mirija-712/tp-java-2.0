@@ -1,0 +1,49 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  sonarcloud:
+    name: Build et Analyse SonarCloud
+    runs-on: ubuntu-latest
+
+    steps:
+      # Étape 1 : Télécharger le code du repo
+      - name: Checkout du code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # fetch-depth: 0 est IMPORTANT
+          # Sans ça, SonarCloud ne voit pas l'historique Git
+          # et ne peut pas faire certaines analyses
+
+      # Étape 2 : Installer Java 17
+      - name: Installation de Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+
+      # Étape 3 : Mettre en cache les dépendances Maven
+      # (évite de retélécharger toutes les libs à chaque run)
+      - name: Cache Maven
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      # Étape 4 : Lancer les tests ET l'analyse SonarCloud
+      - name: Build, Tests et Analyse Sonar
+        working-directory: authentification_back
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./mvnw verify sonar:sonar
