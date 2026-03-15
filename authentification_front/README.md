@@ -19,7 +19,7 @@ Client lourd JavaFX pour l'API d'authentification (backend TP1). Permet de s'ins
 
 ---
 
-## 1. Prérequis
+## 1. Prérequis pour le projet
 
 - **Java 21** (ou 17+ avec JavaFX)
 - **Maven**
