@@ -1,6 +1,8 @@
 package com.example.authentification.entity;
 
 import jakarta.persistence.*;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -8,6 +10,7 @@ import java.time.LocalDateTime;
  * <p>
  * Objectif : mapper la table "users" de la base de données en objet Java.
  * Chaque champ correspond à une colonne de la table.
+ * Implémente {@link Serializable} pour permettre le stockage en session HTTP.
  * </p>
  * <p>
  * Cette implémentation est volontairement dangereuse et ne doit jamais être utilisée en production.
@@ -16,7 +19,9 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Table(name = "users")  // Nom de la table en base de données
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id  // Clé primaire
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incrémenté par la BDD

@@ -121,7 +121,7 @@ public class AuthController {
             Platform.runLater(() -> {
                 if (result.success && result.data != null) {
                     var me = result.data;
-                    profilInfo.setText("Id : " + me.id + " — Email : " + me.email);
+                    profilInfo.setText("Id : " + me.getId() + " — Email : " + me.getEmail());
                     statusLabel.setText("Connecté. GET /api/me OK.");
                 } else {
                     profilInfo.setText("Non connecté ou erreur : " + (result.errorMessage != null ? result.errorMessage : "?"));

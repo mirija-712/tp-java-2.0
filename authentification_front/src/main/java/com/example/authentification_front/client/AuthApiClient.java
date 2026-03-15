@@ -19,6 +19,7 @@ import java.time.Duration;
 public class AuthApiClient {
 
     private static final String DEFAULT_BASE_URL = "http://localhost:8080";
+    private static final String ERROR_PREFIX = "Erreur";
     private final String baseUrl;
     private final HttpClient httpClient;
     private final Gson gson = new Gson();
@@ -82,14 +83,17 @@ public class AuthApiClient {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() == 200) {
                 MeResponse me = gson.fromJson(response.body(), MeResponse.class);
-                return ApiResult.success(me);
+                return ApiResult.ok(me);
             }
             if (response.statusCode() == 401) {
                 return ApiResult.error("Non authentifié.");
             }
-            return ApiResult.error("Erreur " + response.statusCode() + " : " + response.body());
+            return ApiResult.error(ERROR_PREFIX + " " + response.statusCode() + " : " + response.body());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Requête interrompue", e);
         } catch (Exception e) {
-            return ApiResult.error("Erreur réseau : " + e.getMessage());
+            return ApiResult.error(ERROR_PREFIX + " réseau : " + e.getMessage());
         }
     }
 
@@ -100,18 +104,23 @@ public class AuthApiClient {
 
             if (response.statusCode() >= 200 && response.statusCode() < 300) {
                 AuthResponse auth = gson.fromJson(body, AuthResponse.class);
-                return ApiResult.success(auth != null ? auth.message : "OK");
+                return ApiResult.ok(auth != null ? auth.message : "OK");
             }
-
-            // Réponse d'erreur JSON (400, 401, 409)
-            try {
-                ErrorResponse err = gson.fromJson(body, ErrorResponse.class);
-                return ApiResult.error(err.message != null ? err.message : "Erreur " + response.statusCode());
-            } catch (Exception ignored) {
-                return ApiResult.error("Erreur " + response.statusCode() + " : " + body);
-            }
+            return parseErrorResponse(body, response.statusCode());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Requête interrompue", e);
         } catch (Exception e) {
-            return ApiResult.error("Erreur réseau : " + e.getMessage());
+            return ApiResult.error(ERROR_PREFIX + " réseau : " + e.getMessage());
+        }
+    }
+
+    private ApiResult<String> parseErrorResponse(String body, int statusCode) {
+        try {
+            ErrorResponse err = gson.fromJson(body, ErrorResponse.class);
+            return ApiResult.error(err.message != null ? err.message : ERROR_PREFIX + " " + statusCode);
+        } catch (Exception ignored) {
+            return ApiResult.error(ERROR_PREFIX + " " + statusCode + " : " + body);
         }
     }
 
@@ -138,8 +147,13 @@ public class AuthApiClient {
     }
 
     public static class MeResponse {
-        public Long id;
-        public String email;
+        private Long id;
+        private String email;
+
+        public Long getId() { return id; }
+        public void setId(Long id) { this.id = id; }
+        public String getEmail() { return email; }
+        public void setEmail(String email) { this.email = email; }
     }
 
     public static class ApiResult<T> {
@@ -153,7 +167,7 @@ public class AuthApiClient {
             this.errorMessage = errorMessage;
         }
 
-        public static <T> ApiResult<T> success(T data) {
+        public static <T> ApiResult<T> ok(T data) {
             return new ApiResult<>(true, data, null);
         }
 
