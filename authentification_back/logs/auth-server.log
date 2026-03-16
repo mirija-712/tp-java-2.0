@@ -241,3 +241,87 @@
 2026-03-16 11:21:22 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2026-03-16 11:21:22 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2026-03-16 11:21:22 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-03-16 11:36:22 [main] INFO  c.e.a.AuthControllerTest - Starting AuthControllerTest using Java 17.0.12 with PID 19728 (started by steve in D:\spring boot\tp-java\authentification_back)
+2026-03-16 11:36:22 [main] INFO  c.e.a.AuthControllerTest - The following 1 profile is active: "test"
+2026-03-16 11:36:25 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-16 11:36:25 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 660 ms. Found 1 JPA repository interface.
+2026-03-16 11:36:27 [main] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-16 11:36:28 [main] INFO  org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.4.Final
+2026-03-16 11:36:30 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-16 11:36:31 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-16 11:36:32 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-03-16 11:36:32 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-16 11:36:32 [main] WARN  org.hibernate.orm.core - HHH000511: The 2.4.240 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly.The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2026-03-16 11:36:32 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-16 11:36:32 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:testdb]
+	Database driver: H2 JDBC Driver
+	Database dialect: MySQLDialect
+	Database version: 2.4.240
+	Default catalog/schema: TESTDB/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-16 11:36:36 [main] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-16 11:36:37 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-16 11:36:37 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-16 11:36:38 [main] WARN  o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-16 11:36:40 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-03-16 11:36:40 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-03-16 11:36:40 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 7 ms
+2026-03-16 11:36:40 [main] INFO  c.e.a.AuthControllerTest - Started AuthControllerTest in 21.127 seconds (process running for 27.797)
+2026-03-16 11:36:44 [main] INFO  c.e.a.service.AuthService - Inscription réussie pour me@test.com
+2026-03-16 11:36:44 [main] INFO  c.e.a.service.AuthService - Connexion réussie pour me@test.com
+2026-03-16 11:36:45 [main] INFO  c.e.a.service.AuthService - Inscription réussie pour user@example.com
+2026-03-16 11:36:45 [main] WARN  c.e.a.service.AuthService - Connexion échouée : email inconnu inconnu@test.com
+2026-03-16 11:36:45 [main] INFO  c.e.a.service.AuthService - Inscription réussie pour login@test.com
+2026-03-16 11:36:45 [main] INFO  c.e.a.service.AuthService - Connexion réussie pour login@test.com
+2026-03-16 11:36:46 [main] INFO  c.e.a.service.AuthService - Inscription réussie pour toto@test.com
+2026-03-16 11:36:46 [main] WARN  c.e.a.service.AuthService - Inscription échouée : email déjà existant pour toto@test.com
+2026-03-16 11:36:46 [main] INFO  c.e.a.service.AuthService - Inscription réussie pour locked@test.com
+2026-03-16 11:36:46 [main] WARN  c.e.a.service.AuthService - Connexion échouée (tentative 1): mot de passe incorrect pour locked@test.com
+2026-03-16 11:36:46 [main] WARN  c.e.a.service.AuthService - Connexion échouée (tentative 2): mot de passe incorrect pour locked@test.com
+2026-03-16 11:36:46 [main] WARN  c.e.a.service.AuthService - Connexion échouée (tentative 3): mot de passe incorrect pour locked@test.com
+2026-03-16 11:36:46 [main] WARN  c.e.a.service.AuthService - Connexion échouée (tentative 4): mot de passe incorrect pour locked@test.com
+2026-03-16 11:36:47 [main] WARN  c.e.a.service.AuthService - Compte verrouillé après 5 échecs pour locked@test.com
+2026-03-16 11:36:47 [main] INFO  c.e.a.service.AuthService - Inscription réussie pour user@test.com
+2026-03-16 11:36:47 [main] WARN  c.e.a.service.AuthService - Connexion échouée (tentative 1): mot de passe incorrect pour user@test.com
+2026-03-16 11:36:47 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.authentification.AuthentificationApplicationTests]: AuthentificationApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-03-16 11:36:47 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.authentification.AuthentificationApplication for test class com.example.authentification.AuthentificationApplicationTests
+2026-03-16 11:36:47 [main] INFO  o.s.b.d.r.RestartApplicationListener - Restart disabled due to context in which it is running
+2026-03-16 11:36:47 [main] INFO  c.e.a.AuthentificationApplicationTests - Starting AuthentificationApplicationTests using Java 17.0.12 with PID 19728 (started by steve in D:\spring boot\tp-java\authentification_back)
+2026-03-16 11:36:47 [main] INFO  c.e.a.AuthentificationApplicationTests - The following 1 profile is active: "test"
+2026-03-16 11:36:48 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-16 11:36:49 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 156 ms. Found 1 JPA repository interface.
+2026-03-16 11:36:49 [main] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-16 11:36:49 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-16 11:36:49 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2026-03-16 11:36:49 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection conn10: url=jdbc:h2:mem:testdb user=SA
+2026-03-16 11:36:49 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2026-03-16 11:36:49 [main] WARN  org.hibernate.orm.core - HHH000511: The 2.4.240 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly.The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2026-03-16 11:36:49 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-16 11:36:49 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:testdb]
+	Database driver: H2 JDBC Driver
+	Database dialect: MySQLDialect
+	Database version: 2.4.240
+	Default catalog/schema: TESTDB/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-16 11:36:49 [main] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-16 11:36:49 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-16 11:36:50 [main] WARN  o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-16 11:36:50 [main] INFO  c.e.a.AuthentificationApplicationTests - Started AuthentificationApplicationTests in 3.177 seconds (process running for 37.896)
+2026-03-16 11:36:50 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-16 11:36:51 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-03-16 11:36:51 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-03-16 11:36:51 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-16 11:36:51 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2026-03-16 11:36:51 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.

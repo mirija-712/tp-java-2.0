@@ -112,12 +112,13 @@ public class AuthService {
             if (attempts >= 5) {
                 user.setLockUntil(now.plusMinutes(2));
                 log.warn("Compte verrouillé après {} échecs pour {}", attempts, request.email());
+                userRepository.save(user);
+                throw new AccountLockedException("Compte temporairement verrouillé, veuillez réessayer plus tard");
             } else {
                 log.warn("Connexion échouée (tentative {}): mot de passe incorrect pour {}", attempts, request.email());
+                userRepository.save(user);
+                throw new AuthenticationFailedException("Email ou mot de passe incorrect");
             }
-
-            userRepository.save(user);
-            throw new AuthenticationFailedException("Email ou mot de passe incorrect");
         }
 
         // Succès : on réinitialise le verrouillage
