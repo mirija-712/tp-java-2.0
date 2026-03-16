@@ -5,4 +5,6 @@
 -- =============================================================================
 
 -- Compte de test : toto@example.com / pwd1234
-INSERT IGNORE INTO users (email, password_clear) VALUES ('toto@example.com', 'pwd1234');
+-- ATTENTION : la valeur ci-dessous doit être un hash BCrypt valide de "pwd1234".
+-- Regénérer ce hash avec BCryptPasswordEncoder si nécessaire.
+INSERT IGNORE INTO users (email, password_hash) VALUES ('toto@example.com', '$2a$10$wO5H8sO2jXh1Q2m3hLqvYeA0xXv6wJvFf9M5gkZQ3yQpZbVnYh2y');

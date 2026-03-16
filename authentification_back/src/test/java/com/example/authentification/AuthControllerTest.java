@@ -38,7 +38,7 @@ class AuthControllerTest {
     void register_avecEmailVide_retourne400() throws Exception {
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\":\"\",\"password\":\"pwd1234\"}"))
+                        .content("{\"email\":\"\",\"password\":\"Abcd1234!@#$\"}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.message").exists());
@@ -48,7 +48,7 @@ class AuthControllerTest {
     void register_avecFormatEmailIncorrect_retourne400() throws Exception {
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\":\"invalid-email\",\"password\":\"pwd1234\"}"))
+                        .content("{\"email\":\"invalid-email\",\"password\":\"Abcd1234!@#$\"}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(400));
     }
@@ -67,14 +67,14 @@ class AuthControllerTest {
     void register_valide_retourne200() throws Exception {
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\":\"user@example.com\",\"password\":\"pwd1234\"}"))
+                        .content("{\"email\":\"user@example.com\",\"password\":\"Abcd1234!@#$\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true));
     }
 
     @Test
     void register_avecEmailExistant_retourne409() throws Exception {
-        String body = "{\"email\":\"toto@test.com\",\"password\":\"pwd1234\"}";
+        String body = "{\"email\":\"toto@test.com\",\"password\":\"Abcd1234!@#$\"}";
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body))
@@ -91,11 +91,11 @@ class AuthControllerTest {
     void login_valide_retourne200() throws Exception {
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\":\"login@test.com\",\"password\":\"pwd1234\"}"));
+                        .content("{\"email\":\"login@test.com\",\"password\":\"Abcd1234!@#$\"}"));
 
         mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\":\"login@test.com\",\"password\":\"pwd1234\"}"))
+                        .content("{\"email\":\"login@test.com\",\"password\":\"Abcd1234!@#$\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true));
     }
@@ -104,7 +104,7 @@ class AuthControllerTest {
     void login_motDePasseIncorrect_retourne401() throws Exception {
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\":\"user@test.com\",\"password\":\"pwd1234\"}"));
+                        .content("{\"email\":\"user@test.com\",\"password\":\"Abcd1234!@#$\"}"));
 
         mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -117,9 +117,25 @@ class AuthControllerTest {
     void login_emailInconnu_retourne401() throws Exception {
         mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\":\"inconnu@test.com\",\"password\":\"pwd1234\"}"))
+                        .content("{\"email\":\"inconnu@test.com\",\"password\":\"Abcd1234!@#$\"}"))
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.status").value(401));
+    }
+
+    @Test
+    void login_apresCinqEchecs_retourne423() throws Exception {
+        mockMvc.perform(post("/api/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"email\":\"locked@test.com\",\"password\":\"Abcd1234!@#$\"}"));
+
+        // 5 tentatives avec mauvais mot de passe
+        String badBody = "{\"email\":\"locked@test.com\",\"password\":\"Wrong123!\"}";
+        for (int i = 0; i < 5; i++) {
+            mockMvc.perform(post("/api/auth/login")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(badBody))
+                    .andExpect(i < 4 ? status().isUnauthorized() : status().isLocked());
+        }
     }
 
     @Test
@@ -132,11 +148,11 @@ class AuthControllerTest {
     void me_apresLogin_retourne200etDonneesUtilisateur() throws Exception {
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\":\"me@test.com\",\"password\":\"pwd1234\"}"));
+                        .content("{\"email\":\"me@test.com\",\"password\":\"Abcd1234!@#$\"}"));
 
         MvcResult loginResult = mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\":\"me@test.com\",\"password\":\"pwd1234\"}"))
+                        .content("{\"email\":\"me@test.com\",\"password\":\"Abcd1234!@#$\"}"))
                 .andExpect(status().isOk())
                 .andReturn();
 

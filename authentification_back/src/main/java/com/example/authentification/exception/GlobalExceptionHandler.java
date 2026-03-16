@@ -58,4 +58,13 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .body(buildErrorResponse(request, HttpStatus.CONFLICT, "Conflict", ex.getMessage()));
     }
+
+    // Compte verrouillé (anti brute-force TP2) -> HTTP 423 Locked
+    @ExceptionHandler(AccountLockedException.class)
+    public ResponseEntity<Map<String, Object>> handleAccountLocked(AccountLockedException ex,
+                                                                   HttpServletRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.LOCKED)
+                .body(buildErrorResponse(request, HttpStatus.LOCKED, "Locked", ex.getMessage()));
+    }
 }

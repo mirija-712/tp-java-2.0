@@ -4,13 +4,17 @@ import com.example.authentification.dto.LoginRequest;
 import com.example.authentification.dto.RegisterRequest;
 import com.example.authentification.entity.User;
 import com.example.authentification.exception.AuthenticationFailedException;
+import com.example.authentification.exception.AccountLockedException;
 import com.example.authentification.exception.InvalidInputException;
 import com.example.authentification.exception.ResourceConflictException;
 import com.example.authentification.repository.UserRepository;
+import com.example.authentification.validator.PasswordPolicyValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 
 /**
@@ -28,13 +32,14 @@ import java.util.regex.Pattern;
 public class AuthService {
 
     private static final Logger log = LoggerFactory.getLogger(AuthService.class);
-    private static final int MIN_PASSWORD_LENGTH = 4;  // Règle TP1 : minimum 4 caractères
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[^@]+@[^@]+\\.[^@]+$");  // Format xxx@yyy.zzz
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthService(UserRepository userRepository) {
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -46,7 +51,8 @@ public class AuthService {
      */
     public User register(RegisterRequest request) {
         validateEmail(request.email());
-        validatePassword(request.password());
+        // Politique forte TP2 côté serveur
+        PasswordPolicyValidator.validate(request.password());
 
         // Vérifier que l'email n'existe pas déjà
         if (userRepository.existsByEmail(request.email())) {
@@ -54,8 +60,9 @@ public class AuthService {
             throw new ResourceConflictException("Cet email est déjà utilisé");
         }
 
-        // Créer et sauvegarder l'utilisateur (mot de passe en clair - dangereux !)
-        User user = new User(request.email(), request.password());
+        // Créer et sauvegarder l'utilisateur avec un hash BCrypt du mot de passe
+        String hashedPassword = passwordEncoder.encode(request.password());
+        User user = new User(request.email(), hashedPassword);
         user = userRepository.save(user);
         log.info("Inscription réussie pour {}", request.email());  // Ne JAMAIS logger le mot de passe
         return user;
@@ -70,7 +77,10 @@ public class AuthService {
      */
     public User login(LoginRequest request) {
         validateEmail(request.email());
-        validatePassword(request.password());
+        // Pas de politique complète au login, mais mot de passe non vide
+        if (request.password() == null || request.password().isBlank()) {
+            throw new InvalidInputException("Le mot de passe est requis");
+        }
 
         // Chercher l'utilisateur par email
         User user = userRepository.findByEmail(request.email())
@@ -78,12 +88,42 @@ public class AuthService {
                     log.warn("Connexion échouée : email inconnu {}", request.email());
                     return new AuthenticationFailedException("Email ou mot de passe incorrect");
                 });
+        LocalDateTime now = LocalDateTime.now();
 
-        // Comparer le mot de passe en clair (dangereux ! En prod : BCrypt)
-        if (!user.getPasswordClear().equals(request.password())) {
-            log.warn("Connexion échouée : mot de passe incorrect pour {}", request.email());
+        // Vérifier si le compte est verrouillé
+        if (user.getLockUntil() != null && now.isBefore(user.getLockUntil())) {
+            log.warn("Connexion refusée : compte verrouillé pour {}", request.email());
+            throw new AccountLockedException("Compte temporairement verrouillé, veuillez réessayer plus tard");
+        }
+
+        // Si la période de verrouillage est passée, on réinitialise le compteur
+        if (user.getLockUntil() != null && now.isAfter(user.getLockUntil())) {
+            user.setFailedAttempts(0);
+            user.setLockUntil(null);
+        }
+
+        // Comparer le mot de passe via BCrypt
+        if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
+            int attempts = user.getFailedAttempts() == null ? 0 : user.getFailedAttempts();
+            attempts++;
+            user.setFailedAttempts(attempts);
+
+            // Verrouiller après 5 échecs consécutifs pendant ~2 minutes
+            if (attempts >= 5) {
+                user.setLockUntil(now.plusMinutes(2));
+                log.warn("Compte verrouillé après {} échecs pour {}", attempts, request.email());
+            } else {
+                log.warn("Connexion échouée (tentative {}): mot de passe incorrect pour {}", attempts, request.email());
+            }
+
+            userRepository.save(user);
             throw new AuthenticationFailedException("Email ou mot de passe incorrect");
         }
+
+        // Succès : on réinitialise le verrouillage
+        user.setFailedAttempts(0);
+        user.setLockUntil(null);
+        userRepository.save(user);
 
         log.info("Connexion réussie pour {}", request.email());
         return user;
@@ -96,13 +136,6 @@ public class AuthService {
         }
         if (!EMAIL_PATTERN.matcher(email.trim()).matches()) {
             throw new InvalidInputException("Format d'email invalide");
-        }
-    }
-
-    // Valide la longueur minimale du mot de passe (4 caractères pour le TP1)
-    private void validatePassword(String password) {
-        if (password == null || password.length() < MIN_PASSWORD_LENGTH) {
-            throw new InvalidInputException("Le mot de passe doit contenir au minimum " + MIN_PASSWORD_LENGTH + " caractères");
         }
     }
 }

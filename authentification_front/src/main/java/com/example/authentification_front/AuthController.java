@@ -20,6 +20,10 @@ public class AuthController {
     @FXML
     private PasswordField registerPassword;
     @FXML
+    private PasswordField registerPasswordConfirm;
+    @FXML
+    private Label passwordStrengthLabel;
+    @FXML
     private Label registerMessage;
 
     @FXML
@@ -43,20 +47,29 @@ public class AuthController {
         clearMessage(registerMessage);
         clearMessage(loginMessage);
         statusLabel.setText("Prêt. Assurez-vous que le backend (authentification_back) tourne sur http://localhost:8080");
+
+        // Indicateur de force du mot de passe (TP2)
+        registerPassword.textProperty().addListener((obs, oldVal, newVal) -> updatePasswordStrength(newVal));
     }
 
     @FXML
     protected void onRegisterClick() {
         String email = registerEmail.getText() == null ? "" : registerEmail.getText().trim();
         String password = registerPassword.getText() == null ? "" : registerPassword.getText();
+        String confirm = registerPasswordConfirm.getText() == null ? "" : registerPasswordConfirm.getText();
         clearMessage(registerMessage);
 
         if (email.isEmpty()) {
             setMessage(registerMessage, "L'email est requis.", false);
             return;
         }
-        if (password.length() < 4) {
-            setMessage(registerMessage, "Le mot de passe doit contenir au minimum 4 caractères.", false);
+        if (!password.equals(confirm)) {
+            setMessage(registerMessage, "Les mots de passe ne correspondent pas.", false);
+            return;
+        }
+        // Petit garde-fou côté client avant la vraie validation serveur (12 caractères, etc.)
+        if (password.length() < 8) {
+            setMessage(registerMessage, "Mot de passe trop court (min. 12 caractères côté serveur).", false);
             return;
         }
 
@@ -66,6 +79,8 @@ public class AuthController {
                 if (result.success) {
                     setMessage(registerMessage, result.data, true);
                     registerPassword.clear();
+                    registerPasswordConfirm.clear();
+                    passwordStrengthLabel.setText("");
                 } else {
                     setMessage(registerMessage, result.errorMessage, false);
                 }
@@ -145,5 +160,31 @@ public class AuthController {
         Thread t = new Thread(task);
         t.setDaemon(true);
         t.start();
+    }
+
+    private void updatePasswordStrength(String password) {
+        if (password == null || password.isEmpty()) {
+            passwordStrengthLabel.setText("");
+            passwordStrengthLabel.setStyle("");
+            return;
+        }
+
+        int score = 0;
+        if (password.length() >= 12) score++;
+        if (password.chars().anyMatch(Character::isUpperCase)) score++;
+        if (password.chars().anyMatch(Character::isLowerCase)) score++;
+        if (password.chars().anyMatch(Character::isDigit)) score++;
+        if (password.chars().anyMatch(ch -> !Character.isLetterOrDigit(ch))) score++;
+
+        if (score <= 2) {
+            passwordStrengthLabel.setText("Force : faible");
+            passwordStrengthLabel.setStyle("-fx-text-fill: red;");
+        } else if (score == 3 || score == 4) {
+            passwordStrengthLabel.setText("Force : moyenne");
+            passwordStrengthLabel.setStyle("-fx-text-fill: orange;");
+        } else {
+            passwordStrengthLabel.setText("Force : forte");
+            passwordStrengthLabel.setStyle("-fx-text-fill: green;");
+        }
     }
 }

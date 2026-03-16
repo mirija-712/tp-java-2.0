@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
  * </p>
  * <p>
  * Cette implémentation est volontairement dangereuse et ne doit jamais être utilisée en production.
- * Les mots de passe sont stockés en clair dans le champ {@code password_clear}.
+ * Les mots de passe sont stockés sous forme de hash dans le champ {@code password_hash},
+ * et des champs supplémentaires permettent de compter les échecs de connexion (TP2).
  * </p>
  */
 @Entity
@@ -30,8 +31,14 @@ public class User implements Serializable {
     @Column(nullable = false, unique = true)  // Obligatoire et unique (pas de doublon)
     private String email;
 
-    @Column(name = "password_clear", nullable = false)  // Nom de colonne différent en BDD
-    private String passwordClear;
+    @Column(name = "password_hash", nullable = false)  // Hash BCrypt du mot de passe
+    private String passwordHash;
+
+    @Column(name = "failed_attempts")
+    private Integer failedAttempts = 0;
+
+    @Column(name = "lock_until")
+    private LocalDateTime lockUntil;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -44,9 +51,9 @@ public class User implements Serializable {
 
     public User() {}  // Constructeur vide requis par JPA
 
-    public User(String email, String passwordClear) {
+    public User(String email, String passwordHash) {
         this.email = email;
-        this.passwordClear = passwordClear;
+        this.passwordHash = passwordHash;
     }
 
     public Long getId() {
@@ -65,12 +72,12 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getPasswordClear() {
-        return passwordClear;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPasswordClear(String passwordClear) {
-        this.passwordClear = passwordClear;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -79,5 +86,21 @@ public class User implements Serializable {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Integer getFailedAttempts() {
+        return failedAttempts;
+    }
+
+    public void setFailedAttempts(Integer failedAttempts) {
+        this.failedAttempts = failedAttempts;
+    }
+
+    public LocalDateTime getLockUntil() {
+        return lockUntil;
+    }
+
+    public void setLockUntil(LocalDateTime lockUntil) {
+        this.lockUntil = lockUntil;
     }
 }

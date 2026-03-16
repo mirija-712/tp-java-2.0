@@ -24,8 +24,11 @@
             </padding>
             <Label text="Email :"/>
             <TextField fx:id="registerEmail" promptText="ex: user@example.com" prefWidth="280"/>
-            <Label text="Mot de passe (min. 4 caractères) :"/>
+            <Label text="Mot de passe (min. 12 caractères) :"/>
             <PasswordField fx:id="registerPassword" promptText="Mot de passe" prefWidth="280"/>
+            <Label text="Confirmer le mot de passe :"/>
+            <PasswordField fx:id="registerPasswordConfirm" promptText="Confirmation" prefWidth="280"/>
+            <Label fx:id="passwordStrengthLabel" text="" />
             <Button text="S'inscrire" onAction="#onRegisterClick" defaultButton="true"/>
             <Label fx:id="registerMessage" wrapText="true" maxWidth="300"/>
         </VBox>
