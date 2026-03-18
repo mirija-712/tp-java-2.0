@@ -46,5 +46,11 @@ class PasswordPolicyValidatorTest {
         assertThrows(InvalidInputException.class,
                 () -> PasswordPolicyValidator.validate("Abcd1234Abcd"));
     }
+
+    @Test
+    void password_null_leve_InvalidInputException() {
+        assertThrows(InvalidInputException.class,
+                () -> PasswordPolicyValidator.validate(null));
+    }
 }
 

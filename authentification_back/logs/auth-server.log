@@ -609,3 +609,107 @@
 2026-03-18 15:16:52 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2026-03-18 15:16:52 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
 2026-03-18 15:16:52 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2026-03-18 15:48:46 [main] INFO  c.e.a.AuthControllerTest - Starting AuthControllerTest using Java 17.0.12 with PID 22500 (started by steve in D:\spring boot\tp-java\authentification_back)
+2026-03-18 15:48:46 [main] INFO  c.e.a.AuthControllerTest - The following 1 profile is active: "test"
+2026-03-18 15:48:52 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-18 15:48:52 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 256 ms. Found 1 JPA repository interface.
+2026-03-18 15:48:55 [main] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-18 15:48:56 [main] INFO  org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.4.Final
+2026-03-18 15:49:02 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-18 15:49:03 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-18 15:49:07 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-03-18 15:49:07 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-18 15:49:08 [main] WARN  org.hibernate.orm.core - HHH000511: The 2.4.240 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly.The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2026-03-18 15:49:08 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-18 15:49:09 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:testdb]
+	Database driver: H2 JDBC Driver
+	Database dialect: MySQLDialect
+	Database version: 2.4.240
+	Default catalog/schema: TESTDB/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-18 15:49:18 [main] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-18 15:49:19 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-18 15:49:20 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-18 15:49:21 [main] WARN  o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-18 15:49:25 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-03-18 15:49:25 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-03-18 15:49:25 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 5 ms
+2026-03-18 15:49:25 [main] INFO  c.e.a.AuthControllerTest - Started AuthControllerTest in 44.025 seconds (process running for 52.195)
+2026-03-18 15:49:34 [main] INFO  c.e.a.service.AuthService - Inscription réussie pour me@test.com
+2026-03-18 15:49:34 [main] INFO  c.e.a.service.AuthService - Connexion réussie pour me@test.com
+2026-03-18 15:49:35 [main] INFO  c.e.a.service.AuthService - Inscription réussie pour user@example.com
+2026-03-18 15:49:35 [main] WARN  c.e.a.service.AuthService - Connexion échouée : email inconnu inconnu@test.com
+2026-03-18 15:49:36 [main] INFO  c.e.a.service.AuthService - Inscription réussie pour login@test.com
+2026-03-18 15:49:36 [main] INFO  c.e.a.service.AuthService - Connexion réussie pour login@test.com
+2026-03-18 15:49:36 [main] INFO  c.e.a.service.AuthService - Inscription réussie pour toto@test.com
+2026-03-18 15:49:36 [main] WARN  c.e.a.service.AuthService - Inscription échouée : email déjà existant pour toto@test.com
+2026-03-18 15:49:37 [main] INFO  c.e.a.service.AuthService - Inscription réussie pour locked@test.com
+2026-03-18 15:49:37 [main] WARN  c.e.a.service.AuthService - Connexion échouée (tentative 1): mot de passe incorrect pour locked@test.com
+2026-03-18 15:49:37 [main] WARN  c.e.a.service.AuthService - Connexion échouée (tentative 2): mot de passe incorrect pour locked@test.com
+2026-03-18 15:49:37 [main] WARN  c.e.a.service.AuthService - Connexion échouée (tentative 3): mot de passe incorrect pour locked@test.com
+2026-03-18 15:49:38 [main] WARN  c.e.a.service.AuthService - Connexion échouée (tentative 4): mot de passe incorrect pour locked@test.com
+2026-03-18 15:49:39 [main] WARN  c.e.a.service.AuthService - Compte verrouillé après 5 échecs pour locked@test.com
+2026-03-18 15:49:41 [main] INFO  c.e.a.service.AuthService - Inscription réussie pour user@test.com
+2026-03-18 15:49:42 [main] WARN  c.e.a.service.AuthService - Connexion échouée (tentative 1): mot de passe incorrect pour user@test.com
+2026-03-18 15:49:42 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.authentification.AuthentificationApplicationTests]: AuthentificationApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-03-18 15:49:42 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.authentification.AuthentificationApplication for test class com.example.authentification.AuthentificationApplicationTests
+2026-03-18 15:49:42 [main] INFO  o.s.b.d.r.RestartApplicationListener - Restart disabled due to context in which it is running
+2026-03-18 15:49:42 [main] INFO  c.e.a.AuthentificationApplicationTests - Starting AuthentificationApplicationTests using Java 17.0.12 with PID 22500 (started by steve in D:\spring boot\tp-java\authentification_back)
+2026-03-18 15:49:42 [main] INFO  c.e.a.AuthentificationApplicationTests - The following 1 profile is active: "test"
+2026-03-18 15:49:43 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-18 15:49:43 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 149 ms. Found 1 JPA repository interface.
+2026-03-18 15:49:44 [main] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-18 15:49:44 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-18 15:49:44 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2026-03-18 15:49:44 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection conn10: url=jdbc:h2:mem:testdb user=SA
+2026-03-18 15:49:44 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2026-03-18 15:49:44 [main] WARN  org.hibernate.orm.core - HHH000511: The 2.4.240 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly.The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2026-03-18 15:49:44 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-18 15:49:44 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:testdb]
+	Database driver: H2 JDBC Driver
+	Database dialect: MySQLDialect
+	Database version: 2.4.240
+	Default catalog/schema: TESTDB/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-18 15:49:44 [main] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-18 15:49:45 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-18 15:49:45 [main] WARN  o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-18 15:49:47 [main] INFO  c.e.a.AuthentificationApplicationTests - Started AuthentificationApplicationTests in 5.017 seconds (process running for 73.768)
+2026-03-18 15:49:59 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.authentification.service.AuthServiceLockoutTest]: AuthServiceLockoutTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-03-18 15:50:00 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.authentification.AuthentificationApplication for test class com.example.authentification.service.AuthServiceLockoutTest
+2026-03-18 15:50:03 [main] INFO  c.e.a.service.AuthService - Inscription réussie pour lock-reset@test.com
+2026-03-18 15:50:04 [main] WARN  c.e.a.service.AuthService - Connexion échouée (tentative 1): mot de passe incorrect pour lock-reset@test.com
+2026-03-18 15:50:04 [main] WARN  c.e.a.service.AuthService - Connexion échouée (tentative 2): mot de passe incorrect pour lock-reset@test.com
+2026-03-18 15:50:04 [main] WARN  c.e.a.service.AuthService - Connexion échouée (tentative 3): mot de passe incorrect pour lock-reset@test.com
+2026-03-18 15:50:05 [main] WARN  c.e.a.service.AuthService - Connexion échouée (tentative 4): mot de passe incorrect pour lock-reset@test.com
+2026-03-18 15:50:05 [main] WARN  c.e.a.service.AuthService - Compte verrouillé après 5 échecs pour lock-reset@test.com
+2026-03-18 15:50:05 [main] WARN  c.e.a.service.AuthService - Connexion refusée : compte verrouillé pour lock-reset@test.com
+2026-03-18 15:50:06 [main] INFO  c.e.a.service.AuthService - Connexion réussie pour lock-reset@test.com
+2026-03-18 15:50:06 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.authentification.service.AuthServiceTest]: AuthServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-03-18 15:50:06 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.authentification.AuthentificationApplication for test class com.example.authentification.service.AuthServiceTest
+2026-03-18 15:50:07 [main] INFO  c.e.a.service.AuthService - Inscription réussie pour empty@test.com
+2026-03-18 15:50:07 [main] INFO  c.e.a.service.AuthService - Inscription réussie pour flow@test.com
+2026-03-18 15:50:08 [main] INFO  c.e.a.service.AuthService - Connexion réussie pour flow@test.com
+2026-03-18 15:50:08 [main] WARN  c.e.a.service.AuthService - Connexion échouée : email inconnu unknown@test.com
+2026-03-18 15:50:08 [main] INFO  c.e.a.service.AuthService - Inscription réussie pour duplicate@test.com
+2026-03-18 15:50:08 [main] WARN  c.e.a.service.AuthService - Inscription échouée : email déjà existant pour duplicate@test.com
+2026-03-18 15:50:08 [main] INFO  c.e.a.service.AuthService - Inscription réussie pour badpwd@test.com
+2026-03-18 15:50:08 [main] WARN  c.e.a.service.AuthService - Connexion échouée (tentative 1): mot de passe incorrect pour badpwd@test.com
+2026-03-18 15:50:09 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-18 15:50:12 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-03-18 15:50:12 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-03-18 15:50:12 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-18 15:50:12 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2026-03-18 15:50:12 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
