@@ -12,9 +12,24 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 
 /**
- * Client HTTP pour communiquer avec l'API d'authentification (backend TP1).
- * Utilise une session (cookies) pour maintenir l'état connecté après login.
- * Cette implémentation est volontairement simplifiée et ne doit pas être utilisée en production.
+ * Client HTTP pour communiquer avec l'API d'authentification (backend).
+ * <p>
+ * Objectifs principaux :
+ * </p>
+ * <ul>
+ *     <li>encapsuler la logique d'appel HTTP (URL, headers, body JSON) pour les opérations
+ *     d'inscription, de connexion et de récupération du profil,</li>
+ *     <li>gérer automatiquement les cookies de session (notamment JSESSIONID) pour que le
+ *     serveur reconnaisse l'utilisateur après le login,</li>
+ *     <li>convertir les réponses JSON en objets Java simples via Gson.</li>
+ * </ul>
+ * <p>
+ * La classe renvoie des {@code ApiResult<T>} qui encapsulent soit la donnée, soit un message d'erreur
+ * lisible par le contrôleur JavaFX.
+ * </p>
+ * <p>
+ * Implémentation volontairement simplifiée, non adaptée à un usage en production.
+ * </p>
  */
 public class AuthApiClient {
 
@@ -29,9 +44,12 @@ public class AuthApiClient {
     }
 
     public AuthApiClient(String baseUrl) {
+        // On supprime un éventuel / final pour éviter les doublons lors de la concaténation
         this.baseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
+        // CookieManager accepte tous les cookies pour que la session HTTP fonctionne (JSESSIONID)
         CookieManager cookieManager = new CookieManager();
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+        // HttpClient réutilisé pour toutes les requêtes du client lourd
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(10))
                 .cookieHandler(cookieManager)
@@ -40,6 +58,10 @@ public class AuthApiClient {
 
     /**
      * Inscription : POST /api/auth/register
+     * <p>
+     * Construit un JSON {@code {"email": "...", "password": "..."}}, l'envoie au backend
+     * et parse la réponse standard {@code AuthResponse} ({@code success}, {@code message}).
+     * </p>
      * @return message de succès ou d'erreur
      */
     public ApiResult<String> register(String email, String password) {
@@ -56,6 +78,11 @@ public class AuthApiClient {
     /**
      * Connexion : POST /api/auth/login
      * En cas de succès, le cookie de session est stocké pour les requêtes suivantes.
+     * <p>
+     * Comme pour {@link #register(String, String)}, le backend renvoie un {@code AuthResponse}.
+     * Grâce au CookieManager, le cookie JSESSIONID renvoyé est automatiquement stocké et
+     * réutilisé pour les appels suivants (notamment {@link #getMe()}).
+     * </p>
      * @return message de succès ou d'erreur
      */
     public ApiResult<String> login(String email, String password) {

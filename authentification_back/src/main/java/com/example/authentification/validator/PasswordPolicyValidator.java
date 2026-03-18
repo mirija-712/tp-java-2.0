@@ -16,6 +16,15 @@ public final class PasswordPolicyValidator {
     private PasswordPolicyValidator() {
     }
 
+    /**
+     * Vérifie que le mot de passe respecte toutes les contraintes TP2.
+     * <p>
+     * Si une contrainte n'est pas respectée, lève une {@link InvalidInputException}
+     * avec un message indiquant les règles manquantes.
+     * </p>
+     *
+     * @param password mot de passe en clair à valider (tel que reçu dans RegisterRequest)
+     */
     public static void validate(String password) {
         if (password == null || password.length() < MIN_LENGTH) {
             throw new InvalidInputException("Le mot de passe doit contenir au minimum " + MIN_LENGTH + " caractères");

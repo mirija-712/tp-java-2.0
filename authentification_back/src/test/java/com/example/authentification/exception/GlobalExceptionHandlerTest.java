@@ -23,6 +23,9 @@ class GlobalExceptionHandlerTest {
         return request;
     }
 
+    /**
+     * Teste le handler pour InvalidInputException, doit retourner 400 Bad Request.
+     */
     @Test
     void handleInvalidInput_retourne400() {
         HttpServletRequest request = mockRequest();
@@ -33,6 +36,9 @@ class GlobalExceptionHandlerTest {
         assertEquals("Bad Request", body.get("error"));
     }
 
+    /**
+     * Teste le handler pour AuthenticationFailedException, doit retourner 401 Unauthorized.
+     */
     @Test
     void handleAuthenticationFailed_retourne401() {
         HttpServletRequest request = mockRequest();
@@ -43,6 +49,9 @@ class GlobalExceptionHandlerTest {
         assertEquals("Unauthorized", body.get("error"));
     }
 
+    /**
+     * Teste le handler pour ResourceConflictException, doit retourner 409 Conflict.
+     */
     @Test
     void handleResourceConflict_retourne409() {
         HttpServletRequest request = mockRequest();
@@ -53,6 +62,9 @@ class GlobalExceptionHandlerTest {
         assertEquals("Conflict", body.get("error"));
     }
 
+    /**
+     * Teste le handler pour AccountLockedException, doit retourner 423 Locked.
+     */
     @Test
     void handleAccountLocked_retourne423() {
         HttpServletRequest request = mockRequest();
@@ -63,4 +75,3 @@ class GlobalExceptionHandlerTest {
         assertEquals("Locked", body.get("error"));
     }
 }
-

@@ -7,61 +7,69 @@
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.authentification_front.AuthController"
       alignment="TOP_CENTER"
-      spacing="20"
+      spacing="18"
       styleClass="root">
     <padding>
         <Insets top="25" right="30" bottom="25" left="30"/>
     </padding>
 
-    <Label text="Client d'authentification – TP1"
+    <Label text="Client d'authentification – TP2"
            styleClass="title-label"/>
 
     <!-- Inscription -->
-    <TitledPane text="Inscription" expanded="true" collapsible="true">
+    <TitledPane text="Inscription" expanded="true" collapsible="true" styleClass="card-pane">
         <VBox spacing="10">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
-            <Label text="Email :"/>
-            <TextField fx:id="registerEmail" promptText="ex: user@example.com" prefWidth="280"/>
-            <Label text="Mot de passe (min. 12 caractères) :"/>
-            <PasswordField fx:id="registerPassword" promptText="Mot de passe" prefWidth="280"/>
-            <Label text="Confirmer le mot de passe :"/>
-            <PasswordField fx:id="registerPasswordConfirm" promptText="Confirmation" prefWidth="280"/>
-            <Label fx:id="passwordStrengthLabel" text="" />
-            <Button text="S'inscrire" onAction="#onRegisterClick" defaultButton="true"/>
-            <Label fx:id="registerMessage" wrapText="true" maxWidth="300"/>
+            <Label text="Email" styleClass="field-label"/>
+            <TextField fx:id="registerEmail" promptText="ex: user@example.com" prefWidth="280" styleClass="text-input"/>
+
+            <Label text="Mot de passe (min. 12 caractères)" styleClass="field-label"/>
+            <PasswordField fx:id="registerPassword" promptText="Mot de passe sécurisé" prefWidth="280" styleClass="text-input"/>
+
+            <Label text="Confirmer le mot de passe" styleClass="field-label"/>
+            <PasswordField fx:id="registerPasswordConfirm" promptText="Confirmation" prefWidth="280" styleClass="text-input"/>
+
+            <Label fx:id="passwordStrengthLabel" text="" styleClass="password-strength"/>
+
+            <Button text="S'inscrire" onAction="#onRegisterClick" defaultButton="true" styleClass="primary-button"/>
+
+            <Label fx:id="registerMessage" wrapText="true" maxWidth="300" styleClass="message-label"/>
         </VBox>
     </TitledPane>
 
     <!-- Connexion -->
-    <TitledPane text="Connexion" expanded="true" collapsible="true">
+    <TitledPane text="Connexion" expanded="true" collapsible="true" styleClass="card-pane">
         <VBox spacing="10">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
-            <Label text="Email :"/>
-            <TextField fx:id="loginEmail" promptText="ex: toto@example.com" prefWidth="280"/>
-            <Label text="Mot de passe :"/>
-            <PasswordField fx:id="loginPassword" promptText="Mot de passe" prefWidth="280"/>
-            <Button text="Se connecter" onAction="#onLoginClick" defaultButton="true"/>
-            <Label fx:id="loginMessage" wrapText="true" maxWidth="300"/>
+            <Label text="Email" styleClass="field-label"/>
+            <TextField fx:id="loginEmail" promptText="ex: toto@example.com" prefWidth="280" styleClass="text-input"/>
+
+            <Label text="Mot de passe" styleClass="field-label"/>
+            <PasswordField fx:id="loginPassword" promptText="Mot de passe" prefWidth="280" styleClass="text-input"/>
+
+            <Button text="Se connecter" onAction="#onLoginClick" defaultButton="true" styleClass="primary-button"/>
+
+            <Label fx:id="loginMessage" wrapText="true" maxWidth="300" styleClass="message-label"/>
         </VBox>
     </TitledPane>
 
     <!-- Profil (visible après connexion) -->
-    <TitledPane fx:id="profilPane" text="Mon profil" expanded="true" collapsible="true" visible="false">
+    <TitledPane fx:id="profilPane" text="Mon profil" expanded="true" collapsible="true" visible="false" styleClass="card-pane">
         <VBox spacing="10">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
-            <Label fx:id="profilInfo" text="Id et email chargés après connexion." wrapText="true" maxWidth="300"/>
+            <Label fx:id="profilInfo" text="Id et email chargés après connexion." wrapText="true" maxWidth="300" styleClass="profil-label"/>
             <HBox spacing="10">
-                <Button text="Rafraîchir mon profil (GET /api/me)" onAction="#onRefreshMeClick"/>
-                <Button text="Déconnexion" onAction="#onLogoutClick"/>
+                <Button text="Rafraîchir" onAction="#onRefreshMeClick" styleClass="secondary-button"/>
+                <Button text="Déconnexion" onAction="#onLogoutClick" styleClass="danger-button"/>
             </HBox>
         </VBox>
     </TitledPane>
 
-    <Label fx:id="statusLabel" wrapText="true" maxWidth="350"/>
+    <Label fx:id="statusLabel" wrapText="true" maxWidth="350" styleClass="status-label"/>
 </VBox>

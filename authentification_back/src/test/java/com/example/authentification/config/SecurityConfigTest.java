@@ -10,6 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 class SecurityConfigTest {
 
+    /**
+     * Teste que le PasswordEncoder encode et matches correctement un mot de passe.
+     */
     @Test
     void passwordEncoder_encodeEtMatches() {
         SecurityConfig config = new SecurityConfig();
@@ -21,4 +24,3 @@ class SecurityConfigTest {
         assertTrue(encoder.matches(raw, hash));
     }
 }
-

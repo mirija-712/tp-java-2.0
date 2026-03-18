@@ -20,12 +20,19 @@ import java.util.regex.Pattern;
 /**
  * Service métier d'authentification (couche logique).
  * <p>
- * Objectif : centraliser la logique d'inscription, de connexion et de validation.
- * Les contrôleurs délèguent à ce service. Séparation des responsabilités.
+ * Objectif général :
+ * </p>
+ * <ul>
+ *     <li>vérifier les données reçues du contrôleur (email, mot de passe),</li>
+ *     <li>appliquer la politique de mot de passe du TP2 (longueur + complexité),</li>
+ *     <li>parler au {@link com.example.authentification.repository.UserRepository} pour accéder à la base,</li>
+ *     <li>gérer la sécurité de base : hashage BCrypt et protection anti brute-force avec verrouillage temporaire.</li>
+ * </ul>
+ * <p>
+ * Le contrôleur REST se contente d'exposer les endpoints HTTP et délègue toute la logique ici.
  * </p>
  * <p>
- * Cette implémentation est volontairement dangereuse et ne doit jamais être utilisée en production.
- * Les mots de passe sont stockés en clair et les règles de validation sont minimales.
+ * Cette implémentation est volontairement pédagogique et ne doit jamais être utilisée telle quelle en production.
  * </p>
  */
 @Service  // Bean Spring injectable
@@ -48,6 +55,15 @@ public class AuthService {
      *
      * @param request email et mot de passe
      * @return l'utilisateur créé
+     *
+     * Étapes principales :
+     * <ol>
+     *     <li>valider le format de l'email,</li>
+     *     <li>appliquer la politique de mot de passe TP2 (12 caractères, maj/min/chiffre/spécial),</li>
+     *     <li>vérifier que l'email n'est pas déjà utilisé,</li>
+     *     <li>hasher le mot de passe en BCrypt puis sauvegarder l'utilisateur,</li>
+     *     <li>écrire un log d'information.</li>
+     * </ol>
      */
     public User register(RegisterRequest request) {
         validateEmail(request.email());
@@ -74,6 +90,17 @@ public class AuthService {
      *
      * @param request email et mot de passe
      * @return l'utilisateur authentifié
+     *
+     * Étapes principales :
+     * <ol>
+     *     <li>valider le format de l'email, refuser un mot de passe vide,</li>
+     *     <li>charger l'utilisateur correspondant à l'email (ou lever AuthenticationFailedException),</li>
+     *     <li>si un verrou existe encore (lockUntil dans le futur) &rarr; lever AccountLockedException (HTTP 423),</li>
+     *     <li>si la période de verrouillage est passée &rarr; remettre à zéro les compteurs,</li>
+     *     <li>comparer le mot de passe saisi avec le hash BCrypt stocké,</li>
+     *     <li>en cas d'échec : incrémenter failedAttempts, verrouiller après 5 tentatives et lever l'exception adaptée,</li>
+     *     <li>en cas de succès : réinitialiser failedAttempts et lockUntil puis retourner l'utilisateur.</li>
+     * </ol>
      */
     public User login(LoginRequest request) {
         validateEmail(request.email());

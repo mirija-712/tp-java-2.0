@@ -5,6 +5,7 @@ import com.example.authentification.dto.RegisterRequest;
 import com.example.authentification.entity.User;
 import com.example.authentification.exception.AuthenticationFailedException;
 import com.example.authentification.exception.InvalidInputException;
+import com.example.authentification.exception.ResourceConflictException;
 import com.example.authentification.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -64,5 +65,44 @@ class AuthServiceTest {
         assertThrows(AuthenticationFailedException.class,
                 () -> authService.login(new LoginRequest(email, "Wrong123!")));
     }
-}
 
+    @Test
+    void register_avec_emailInvalide_leve_InvalidInputException() {
+        assertThrows(InvalidInputException.class,
+                () -> authService.register(new RegisterRequest("invalid", "Abcd1234!@#$")));
+    }
+
+    @Test
+    void register_avec_emailVide_leve_InvalidInputException() {
+        assertThrows(InvalidInputException.class,
+                () -> authService.register(new RegisterRequest("", "Abcd1234!@#$")));
+    }
+
+    @Test
+    void register_avec_emailExistant_leve_ResourceConflictException() {
+        String email = "duplicate@test.com";
+        String password = "Abcd1234!@#$";
+        authService.register(new RegisterRequest(email, password));
+
+        assertThrows(ResourceConflictException.class,
+                () -> authService.register(new RegisterRequest(email, "Different123!")));
+    }
+
+    @Test
+    void login_avec_emailInvalide_leve_InvalidInputException() {
+        assertThrows(InvalidInputException.class,
+                () -> authService.login(new LoginRequest("invalid", "Abcd1234!@#$")));
+    }
+
+    @Test
+    void login_avec_emailVide_leve_InvalidInputException() {
+        assertThrows(InvalidInputException.class,
+                () -> authService.login(new LoginRequest("", "Abcd1234!@#$")));
+    }
+
+    @Test
+    void login_avec_emailInconnu_leve_AuthenticationFailedException() {
+        assertThrows(AuthenticationFailedException.class,
+                () -> authService.login(new LoginRequest("unknown@test.com", "Abcd1234!@#$")));
+    }
+}

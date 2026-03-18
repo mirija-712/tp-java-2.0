@@ -7,6 +7,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Point d'entrée JavaFX pour le client lourd.
+ * <p>
+ * Charge le fichier FXML {@code auth-view.fxml}, applique la feuille de style {@code auth.css}
+ * et affiche la fenêtre principale avec le titre de l'application.
+ * </p>
+ */
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {

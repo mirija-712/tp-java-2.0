@@ -9,9 +9,23 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 
 /**
- * Contrôleur de la vue d'authentification (client lourd TP1).
- * Gère l'inscription, la connexion et l'affichage du profil (/api/me).
+ * Contrôleur JavaFX de la vue d'authentification (client lourd TP1/TP2).
+ * <p>
+ * Son rôle est de faire le lien entre :
+ * </p>
+ * <ul>
+ *     <li>les composants graphiques déclarés dans {@code auth-view.fxml}
+ *     (champs de texte, boutons, labels, panneau profil),</li>
+ *     <li>et le client HTTP {@link com.example.authentification_front.client.AuthApiClient}
+ *     qui appelle l'API REST du backend.</li>
+ * </ul>
+ * <p>
+ * Il ne contient aucune logique métier "profonde" (pas de SQL, pas de règles de sécurité),
+ * seulement de la validation de base côté client et l'affichage des messages de retour.
+ * </p>
+ * <p>
  * Cette implémentation est volontairement simplifiée et ne doit pas être utilisée en production.
+ * </p>
  */
 public class AuthController {
 
@@ -59,6 +73,7 @@ public class AuthController {
         String confirm = registerPasswordConfirm.getText() == null ? "" : registerPasswordConfirm.getText();
         clearMessage(registerMessage);
 
+        // Quelques validations côté client pour guider l'utilisateur
         if (email.isEmpty()) {
             setMessage(registerMessage, "L'email est requis.", false);
             return;

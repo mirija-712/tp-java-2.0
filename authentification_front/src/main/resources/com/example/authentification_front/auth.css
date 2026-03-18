@@ -1,7 +1,106 @@
 .root {
+    -fx-font-family: "Segoe UI", system-ui, sans-serif;
     -fx-font-size: 14px;
+    /* couleur de fond plus claire, proche du style de base JavaFX */
+    -fx-background-color: #f3f4f6;
 }
+
 .title-label {
-    -fx-font-size: 18px;
+    -fx-font-size: 20px;
     -fx-font-weight: bold;
+    -fx-text-fill: #f9fafb;
+    -fx-padding: 0 0 10 0;
+}
+
+.card-pane {
+    -fx-background-color: #ffffff;
+    -fx-border-color: rgba(148, 163, 184, 0.5);
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.7), 16, 0.2, 0, 4);
+}
+
+.titled-pane > .title {
+    -fx-background-color: transparent;
+    -fx-padding: 6 0 6 4;
+}
+
+.titled-pane > .title > .text {
+    -fx-fill: #111827;
+    -fx-font-weight: bold;
+}
+
+.field-label {
+    -fx-text-fill: #4b5563;
+    -fx-font-size: 12px;
+}
+
+.text-input {
+    -fx-background-color: #f9fafb;
+    -fx-border-color: rgba(148, 163, 184, 0.8);
+    -fx-text-fill: #111827;
+    -fx-prompt-text-fill: #9ca3af;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+.text-input:focused {
+    -fx-border-color: #6366f1;
+    -fx-effect: dropshadow(gaussian, rgba(99,102,241,0.5), 10, 0.2, 0, 0);
+}
+
+.primary-button {
+    -fx-background-color: linear-gradient(to right, #4f46e5, #6366f1);
+    -fx-text-fill: #f9fafb;
+    -fx-font-weight: bold;
+    -fx-background-radius: 999;
+    -fx-padding: 8 18 8 18;
+}
+
+.primary-button:hover {
+    -fx-background-color: linear-gradient(to right, #4338ca, #4f46e5);
+}
+
+.secondary-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e5e7eb;
+    -fx-border-color: rgba(148, 163, 184, 0.6);
+    -fx-border-radius: 999;
+    -fx-padding: 6 14 6 14;
+}
+
+.secondary-button:hover {
+    -fx-border-color: #6366f1;
+    -fx-text-fill: #c7d2fe;
+}
+
+.danger-button {
+    -fx-background-color: rgba(239, 68, 68, 0.1);
+    -fx-text-fill: #fca5a5;
+    -fx-border-color: rgba(239, 68, 68, 0.6);
+    -fx-border-radius: 999;
+    -fx-padding: 6 14 6 14;
+}
+
+.danger-button:hover {
+    -fx-background-color: rgba(239, 68, 68, 0.25);
+    -fx-text-fill: #fecaca;
+}
+
+.password-strength {
+    -fx-font-size: 12px;
+    -fx-text-fill: #9ca3af;
+}
+
+.message-label {
+    -fx-font-size: 12px;
+}
+
+.status-label {
+    -fx-text-fill: #9ca3af;
+    -fx-padding: 6 0 0 0;
+}
+
+.profil-label {
+    -fx-text-fill: #111827;
 }
